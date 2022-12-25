@@ -8,6 +8,7 @@ export default function ChannelsTemplate() {
   const router = useRouter();
   const { channelId } = router.query;
   const [user, setUser] = useState<User | null>(null);
+  const [isLoadingLogout, setIsLoadingLogout] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then((res) => {
@@ -16,8 +17,10 @@ export default function ChannelsTemplate() {
   }, []);
 
   const handleLogout = async () => {
+    setIsLoadingLogout(true);
     const { error } = await supabase.auth.signOut();
     console.log(error);
+    setIsLoadingLogout(false);
     router.replace("/");
   };
 
@@ -30,9 +33,13 @@ export default function ChannelsTemplate() {
           <li>idea</li>
         </ul>
         <div>
-          <button type="button" onClick={handleLogout}>
-            ログアウト
-          </button>
+          {isLoadingLogout ? (
+            <div>ログアウト中</div>
+          ) : (
+            <button type="button" onClick={handleLogout}>
+              ログアウト
+            </button>
+          )}
         </div>
       </nav>
       <main className={Main}>

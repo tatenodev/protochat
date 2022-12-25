@@ -37,10 +37,10 @@ export default function LoginTemplate() {
       <section>
         <h1>ログイン</h1>
         <div>
-          {!isLoadingLogin ? (
-            <button onClick={handleLogin}>googleログイン</button>
-          ) : (
+          {isLoadingLogin ? (
             <div>ログイン中...</div>
+          ) : (
+            <button onClick={handleLogin}>googleログイン</button>
           )}
         </div>
       </section>
