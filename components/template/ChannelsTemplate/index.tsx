@@ -7,17 +7,18 @@ import type { User } from "@supabase/supabase-js";
 export default function ChannelsTemplate() {
   const router = useRouter();
   const { channelId } = router.query;
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then((res) => {
-      setUser(res.data.session?.user);
+    supabase.auth.getUser().then((res) => {
+      setUser(res.data.user);
     });
   }, []);
 
   const handleLogout = async () => {
-    const result = await supabase.auth.signOut();
-    console.log(result);
+    const { error } = await supabase.auth.signOut();
+    console.log(error);
+    router.replace("/");
   };
 
   return (
