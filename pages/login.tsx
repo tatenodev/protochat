@@ -1,16 +1,5 @@
-export default function Login() {
-  const handleLogin = () => {
-    alert("ログインする");
-  };
+import LoginTemplate from "components/template/LoginTemplate";
 
-  return (
-    <main>
-      <section>
-        <h1>ログイン</h1>
-        <div>
-          <button onClick={handleLogin}>googleログイン</button>
-        </div>
-      </section>
-    </main>
-  );
+export default function LoginPage() {
+  return <LoginTemplate />;
 }
