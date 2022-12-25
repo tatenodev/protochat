@@ -5,7 +5,7 @@ import { supabase } from "utils/supabaseClient";
 export default function LoginTemplate() {
   const router = useRouter();
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
-  const [isLoadingSession, setIsLoadingSession] = useState(true);
+  const [isLoadingSession, setIsLoadingSession] = useState(false);
 
   const handleLogin = () => {
     setIsLoadingLogin(true);
@@ -23,6 +23,7 @@ export default function LoginTemplate() {
   };
 
   useEffect(() => {
+    setIsLoadingSession(true);
     supabase.auth.getSession().then((res) => {
       if (!res.data.session) return setIsLoadingSession(false);
       router.replace("/channels/0000");
