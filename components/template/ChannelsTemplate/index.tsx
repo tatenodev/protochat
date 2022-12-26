@@ -1,20 +1,26 @@
 import { useRouter } from "next/router";
 import { css } from "@emotion/css";
 import { supabase } from "utils/supabaseClient";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 
 export default function ChannelsTemplate() {
   const router = useRouter();
-  const { channelId } = router.query;
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
+  const [channels, setChannels] = useState<any[] | null>(null);
+
+  const getChannels = useCallback(async (id?: string) => {
+    const { data } = await supabase.from("channels").select().eq("user", id);
+    setChannels(data);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getUser().then((res) => {
       setUser(res.data.user);
+      getChannels(res.data.user?.id);
     });
-  }, []);
+  }, [getChannels]);
 
   const handleLogout = async () => {
     setIsLoadingLogout(true);
@@ -29,8 +35,9 @@ export default function ChannelsTemplate() {
       <nav className={Nav}>
         <div>{user?.user_metadata.name}</div>
         <ul>
-          <li>todo</li>
-          <li>idea</li>
+          {channels?.map((channel) => (
+            <li key={channel.id}>{channel.name}</li>
+          ))}
         </ul>
         <div>
           {isLoadingLogout ? (
