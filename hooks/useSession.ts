@@ -1,26 +1,26 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAppDispatch } from "store/hooks";
+import { setIsLoadingSession, setUser } from "store/rootSlice";
 import { supabase } from "utils/supabaseClient";
 
 export function useSession() {
-  const router = useRouter();
-  const [isLoadingSession, setIsLoadingSession] = useState(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setIsLoadingSession(true);
+    dispatch(setIsLoadingSession(true));
     supabase.auth
       .getSession()
       .then((res) => {
-        if (res.data.session) return setIsLoadingSession(false);
-        router.replace("/login");
+        if (res.data.session) {
+          dispatch(setIsLoadingSession(false));
+          dispatch(setUser(res.data.session.user));
+          return;
+        }
+        window.location.replace("/login");
       })
       .catch((err) => {
         console.log(`err: ${err}`);
-        setIsLoadingSession(false);
+        dispatch(setIsLoadingSession(false));
       });
-  }, [router]);
-
-  return {
-    isLoadingSession,
-  };
+  }, [dispatch]);
 }

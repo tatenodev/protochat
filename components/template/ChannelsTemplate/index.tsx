@@ -1,26 +1,27 @@
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { css } from "@emotion/css";
 import { supabase } from "utils/supabaseClient";
-import { useCallback, useEffect, useState } from "react";
-import type { User } from "@supabase/supabase-js";
+import { useAppSelector } from "store/hooks";
 
 export default function ChannelsTemplate() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const { user } = useAppSelector((state) => state.root);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const [channels, setChannels] = useState<any[] | null>(null);
 
-  const getChannels = useCallback(async (id?: string) => {
-    const { data } = await supabase.from("channels").select().eq("user", id);
+  const getChannels = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("channels")
+      .select()
+      .eq("user", user.id);
     setChannels(data);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    supabase.auth.getUser().then((res) => {
-      setUser(res.data.user);
-      getChannels(res.data.user?.id);
-    });
-  }, [getChannels]);
+    getChannels();
+  }, [getChannels, user]);
 
   const handleLogout = async () => {
     setIsLoadingLogout(true);
