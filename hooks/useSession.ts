@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "store/hooks";
-import { setIsLoadingSession, setUser } from "store/rootSlice";
+import { setIsLoadingSession, setUser } from "store/userSlice";
 import { supabase } from "utils/supabaseClient";
 
 export function useSession() {

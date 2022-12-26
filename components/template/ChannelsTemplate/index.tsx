@@ -6,9 +6,17 @@ import { useAppSelector } from "store/hooks";
 
 export default function ChannelsTemplate() {
   const router = useRouter();
-  const { user } = useAppSelector((state) => state.root);
+  const { user } = useAppSelector((state) => state.userInfo);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const [channels, setChannels] = useState<any[] | null>(null);
+
+  const handleLogout = async () => {
+    setIsLoadingLogout(true);
+    const { error } = await supabase.auth.signOut();
+    console.log(error);
+    setIsLoadingLogout(false);
+    router.replace("/");
+  };
 
   const getChannels = useCallback(async () => {
     if (!user) return;
@@ -19,22 +27,21 @@ export default function ChannelsTemplate() {
     setChannels(data);
   }, [user]);
 
+  const handleCreateChannel = () => {
+    alert("create channel");
+  };
+
   useEffect(() => {
     getChannels();
   }, [getChannels, user]);
-
-  const handleLogout = async () => {
-    setIsLoadingLogout(true);
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    setIsLoadingLogout(false);
-    router.replace("/");
-  };
 
   return (
     <div className={Container}>
       <nav className={Nav}>
         <div>{user?.user_metadata.name}</div>
+        <button type="button" onClick={handleCreateChannel}>
+          チャンネルを作成
+        </button>
         <ul>
           {channels?.map((channel) => (
             <li key={channel.id}>{channel.name}</li>

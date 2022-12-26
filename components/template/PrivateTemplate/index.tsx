@@ -6,7 +6,7 @@ type PrivateBlockProps = {
 };
 
 export default function PrivateBlock({ children }: PrivateBlockProps) {
-  const { isLoadingSession } = useAppSelector((state) => state.root);
+  const { isLoadingSession } = useAppSelector((state) => state.userInfo);
   useSession();
 
   if (isLoadingSession) return <div>Page Loading...</div>;

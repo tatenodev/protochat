@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import { setIsLoadingSession } from "store/rootSlice";
+import { setIsLoadingSession } from "store/userSlice";
 import { supabase } from "utils/supabaseClient";
 
 export default function LoginTemplate() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isLoadingSession } = useAppSelector((state) => state.root);
+  const { isLoadingSession } = useAppSelector((state) => state.userInfo);
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
 
   const handleLogin = () => {
