@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { css } from "@emotion/css";
 import { supabase } from "utils/supabaseClient";
 import { useAppSelector } from "store/hooks";
+import { CreateChannelBlock } from "components/block/CreateChannelBlock";
 
 export default function ChannelsTemplate() {
   const router = useRouter();
@@ -27,10 +28,6 @@ export default function ChannelsTemplate() {
     setChannels(data);
   }, [user]);
 
-  const handleCreateChannel = () => {
-    alert("create channel");
-  };
-
   useEffect(() => {
     getChannels();
   }, [getChannels, user]);
@@ -39,9 +36,7 @@ export default function ChannelsTemplate() {
     <div className={Container}>
       <nav className={Nav}>
         <div>{user?.user_metadata.name}</div>
-        <button type="button" onClick={handleCreateChannel}>
-          チャンネルを作成
-        </button>
+        <CreateChannelBlock />
         <ul>
           {channels?.map((channel) => (
             <li key={channel.id}>{channel.name}</li>
