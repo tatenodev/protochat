@@ -2,14 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { css } from "@emotion/css";
 import { supabase } from "utils/supabaseClient";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { CreateChannelBlock } from "components/block/CreateChannelBlock";
+import { setChannelList } from "./slice";
 
 export default function ChannelsTemplate() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const { user } = useAppSelector((state) => state.userInfo);
+  const channelList = useAppSelector((state) => state.channel.list);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
-  const [channels, setChannels] = useState<any[] | null>(null);
+  // const [channels, setChannels] = useState<any[] | null>(null);
 
   const handleLogout = async () => {
     setIsLoadingLogout(true);
@@ -25,8 +28,8 @@ export default function ChannelsTemplate() {
       .from("channels")
       .select()
       .eq("user", user.id);
-    setChannels(data);
-  }, [user]);
+    if (data) dispatch(setChannelList(data));
+  }, [user, dispatch]);
 
   useEffect(() => {
     getChannels();
@@ -38,7 +41,7 @@ export default function ChannelsTemplate() {
         <div>{user?.user_metadata.name}</div>
         <CreateChannelBlock />
         <ul>
-          {channels?.map((channel) => (
+          {channelList?.map((channel) => (
             <li key={channel.id}>{channel.name}</li>
           ))}
         </ul>

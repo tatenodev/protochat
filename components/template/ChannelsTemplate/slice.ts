@@ -1,33 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "store";
+// import type { RootState } from "store";
 
 type ChannelState = {
-  createChannel: {
-    isPublic: boolean;
+  list: {
+    created_at: string;
+    id: string;
+    is_public: boolean;
     name: string;
-  };
+    user: string;
+  }[];
 };
 
 const initialState: ChannelState = {
-  createChannel: {
-    isPublic: false,
-    name: "",
-  },
+  list: [],
 };
 
 export const userSlice = createSlice({
   name: "channel",
   initialState,
   reducers: {
-    setIsPublic: (state, action: PayloadAction<boolean>) => {
-      state.createChannel.isPublic = action.payload;
-    },
-    clearCreateChannelInput: (state) => {
-      state.createChannel = initialState.createChannel;
+    setChannelList: (state, action: PayloadAction<ChannelState["list"]>) => {
+      state.list = action.payload;
     },
   },
 });
 
-export const { setIsPublic, clearCreateChannelInput } = userSlice.actions;
+export const { setChannelList } = userSlice.actions;
 export default userSlice.reducer;

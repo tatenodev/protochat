@@ -1,12 +1,14 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { SwitchPrimitive } from "components/primitive/SwitchPrimitive";
+import { setChannelList } from "components/template/ChannelsTemplate/slice";
 import { useState } from "react";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { supabase } from "utils/supabaseClient";
 import { DialogOverlay, DialogContent } from "./style";
 
 export function CreateChannelBlock() {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.userInfo);
   const [isOpen, setIsOpen] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
@@ -17,10 +19,15 @@ export function CreateChannelBlock() {
   const handleCreateChannel = async () => {
     if (!user || !channelName) return;
     setIsLoading(true);
-    const { error } = await supabase
+    const res = await supabase
       .from("channels")
       .insert({ user: user.id, name: channelName, is_public: isPublic });
-    console.log(`error: ${error}`);
+    const { data } = await supabase
+      .from("channels")
+      .select()
+      .eq("user", user.id);
+
+    if (data) dispatch(setChannelList(data));
     setIsLoading(false);
     setIsOpen(false);
   };
