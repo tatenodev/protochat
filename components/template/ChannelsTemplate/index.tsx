@@ -5,6 +5,7 @@ import { supabase } from "utils/supabaseClient";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { CreateChannelBlock } from "components/block/CreateChannelBlock";
 import { setChannelList } from "./slice";
+import Link from "next/link";
 
 export default function ChannelsTemplate() {
   const dispatch = useAppDispatch();
@@ -12,7 +13,6 @@ export default function ChannelsTemplate() {
   const { user } = useAppSelector((state) => state.userInfo);
   const channelList = useAppSelector((state) => state.channel.list);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
-  // const [channels, setChannels] = useState<any[] | null>(null);
 
   const handleLogout = async () => {
     setIsLoadingLogout(true);
@@ -23,13 +23,24 @@ export default function ChannelsTemplate() {
   };
 
   const getChannels = useCallback(async () => {
-    if (!user) return;
+    if (!user) return console.log("user does not exist.");
     const { data } = await supabase
       .from("channels")
       .select()
       .eq("user", user.id);
     if (data) dispatch(setChannelList(data));
   }, [user, dispatch]);
+
+  const handleDeleteChannel = async (channelId: string) => {
+    if (!user) return console.log("user does not exist.");
+    const res = await supabase.from("channels").delete().eq("id", channelId);
+    const { data } = await supabase
+      .from("channels")
+      .select()
+      .eq("user", user.id);
+    if (data) dispatch(setChannelList(data));
+    console.log(res);
+  };
 
   useEffect(() => {
     getChannels();
@@ -42,7 +53,15 @@ export default function ChannelsTemplate() {
         <CreateChannelBlock />
         <ul>
           {channelList?.map((channel) => (
-            <li key={channel.id}>{channel.name}</li>
+            <li key={channel.id}>
+              <Link href={`/channels/${channel.id}`}>{channel.name}</Link>
+              <button
+                type="button"
+                onClick={() => handleDeleteChannel(channel.id)}
+              >
+                削除
+              </button>
+            </li>
           ))}
         </ul>
         <div>
