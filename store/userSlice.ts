@@ -14,7 +14,7 @@ const initialState: userState = {
 };
 
 export const userSlice = createSlice({
-  name: "root",
+  name: "user",
   initialState,
   reducers: {
     setIsLoadingSession: (state, action: PayloadAction<boolean>) => {

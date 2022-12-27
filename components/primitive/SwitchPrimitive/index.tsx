@@ -2,7 +2,15 @@ import * as Switch from "@radix-ui/react-switch";
 import { css } from "@emotion/css";
 import { useState } from "react";
 
-export function SwitchPrimitive() {
+type SwitchPrimitiveProps = {
+  label?: string;
+  setIsCheckCallback: (arg: boolean) => void;
+};
+
+export function SwitchPrimitive({
+  label = "toggle",
+  setIsCheckCallback,
+}: SwitchPrimitiveProps) {
   const [isCheck, setIsCheck] = useState(false);
 
   return (
@@ -12,10 +20,10 @@ export function SwitchPrimitive() {
         htmlFor="public-channel-mode"
         style={{ paddingRight: 15 }}
       >
-        パブリックチャンネル
+        {label}
       </label>
       <Switch.Root
-        onCheckedChange={(e) => setIsCheck(e)}
+        onCheckedChange={(e) => setIsCheckCallback(e)}
         className={SwitchRoot}
         id="public-channel-mode"
       >
