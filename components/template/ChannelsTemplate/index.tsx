@@ -18,7 +18,6 @@ export default function ChannelsTemplate() {
     setIsLoadingLogout(true);
     const { error } = await supabase.auth.signOut();
     console.log(error);
-    setIsLoadingLogout(false);
     router.replace("/");
   };
 
