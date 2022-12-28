@@ -15,8 +15,10 @@ export default function ChannelsTemplate() {
   const router = useRouter();
   const channelId = router.query.channelId as string | undefined;
   const { user } = useAppSelector((state) => state.userInfo);
+  const channelList = useAppSelector((state) => state.channel.list);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const currentChannel = useAppSelector(selectChannelById(channelId ?? ""));
+  console.log("ChannelsTemplate");
 
   const handleLogout = async () => {
     setIsLoadingLogout(true);
@@ -39,6 +41,14 @@ export default function ChannelsTemplate() {
   useEffect(() => {
     getChannels();
   }, [getChannels, user]);
+
+  // 存在しないchannelIdであればmepageへ遷移
+  useEffect(() => {
+    if (channelList.length === 0 || channelId === "me") return;
+    if (!channelList.some((channel) => channel.id === channelId)) {
+      router.push("/channels/me");
+    }
+  }, [channelId, channelList, router]);
 
   useEffect(() => {
     if (currentChannel) dispatch(setCurrentChannel(currentChannel));
