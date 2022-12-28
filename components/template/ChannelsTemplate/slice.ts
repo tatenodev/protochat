@@ -2,7 +2,7 @@ import { createSlice, current, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "store";
 
-type ChannelItem = {
+export type ChannelItem = {
   created_at: string;
   id: string;
   is_public: boolean;

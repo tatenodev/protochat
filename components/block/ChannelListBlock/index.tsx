@@ -21,8 +21,7 @@ export function ChannelListBlock() {
       {list?.map((channel) => (
         <li key={channel.id}>
           <Link href={`/channels/${channel.id}`}>{channel.name}</Link>
-          {/* <button type="button">編集</button> */}
-          <ChannelEditBlock />
+          <ChannelEditBlock editChannel={channel} />
           <button type="button" onClick={() => handleDeleteChannel(channel.id)}>
             削除
           </button>

@@ -27,10 +27,12 @@ export default function ChannelsTemplate() {
 
   const getChannels = useCallback(async () => {
     if (!user) return console.log("user does not exist.");
+    // TODO: getChannelsQuery関数として切り出す
     const { data } = await supabase
       .from("channels")
       .select()
-      .eq("user", user.id);
+      .eq("user", user.id)
+      .order("created_at", { ascending: true });
     if (data) dispatch(setChannelList(data));
   }, [user, dispatch]);
 

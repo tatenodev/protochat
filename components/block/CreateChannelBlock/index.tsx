@@ -22,13 +22,14 @@ export function CreateChannelBlock() {
   const handleCreateChannel = async () => {
     if (!user || !channelName) return;
     setIsLoading(true);
-    const res = await supabase
+    await supabase
       .from("channels")
       .insert({ user: user.id, name: channelName, is_public: isPublic });
     const { data } = await supabase
       .from("channels")
       .select()
-      .eq("user", user.id);
+      .eq("user", user.id)
+      .order("created_at", { ascending: true });
 
     if (data) dispatch(setChannelList(data));
     setIsLoading(false);
@@ -55,9 +56,11 @@ export function CreateChannelBlock() {
               onChange={(e) => setChannelName(e.target.value)}
             />
           </fieldset>
-          <button onClick={handleCreateChannel}>
-            {isLoading ? "Loading..." : "保存"}
-          </button>
+          {isLoading ? (
+            <div>Loading..</div>
+          ) : (
+            <button onClick={handleCreateChannel}>保存</button>
+          )}
           <Dialog.Close asChild>
             <button aria-label="閉じる">
               <Cross2Icon />
