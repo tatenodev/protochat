@@ -6,10 +6,13 @@ import { useAppDispatch, useAppSelector } from "store/hooks";
 import { CreateChannelBlock } from "components/block/CreateChannelBlock";
 import { setChannelList } from "./slice";
 import Link from "next/link";
+import TextLogBlock from "components/block/TextLogBlock";
+import MeBlock from "components/block/MeBlock";
 
 export default function ChannelsTemplate() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { channelId } = router.query;
   const { user } = useAppSelector((state) => state.userInfo);
   const channelList = useAppSelector((state) => state.channel.list);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
@@ -49,6 +52,9 @@ export default function ChannelsTemplate() {
     <div className={Container}>
       <nav className={Nav}>
         <div>{user?.user_metadata.name}</div>
+        <div>
+          <Link href="/channels/me">Home</Link>
+        </div>
         <CreateChannelBlock />
         <ul>
           {channelList?.map((channel) => (
@@ -74,15 +80,7 @@ export default function ChannelsTemplate() {
         </div>
       </nav>
       <main className={Main}>
-        <h1>チャンネルタイトル</h1>
-        <div>text log</div>
-        <div>text log</div>
-        <div>text log</div>
-        <div>text log</div>
-        <div>text log</div>
-        <div>
-          <input type="text" />
-        </div>
+        {channelId === "me" ? <MeBlock /> : <TextLogBlock />}
       </main>
     </div>
   );

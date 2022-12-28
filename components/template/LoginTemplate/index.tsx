@@ -16,7 +16,7 @@ export default function LoginTemplate() {
       .signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: "http://localhost:3000/channels/0000",
+          redirectTo: "http://localhost:3000/channels/me",
         },
       })
       .catch((err) => {
@@ -29,7 +29,7 @@ export default function LoginTemplate() {
     dispatch(setIsLoadingSession(true));
     supabase.auth.getSession().then((res) => {
       if (!res.data.session) return dispatch(setIsLoadingSession(false));
-      router.replace("/channels/0000");
+      router.replace("/channels/me");
     });
   }, [router, dispatch]);
 

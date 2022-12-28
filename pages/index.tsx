@@ -9,7 +9,7 @@ export default function Top() {
           <Link href="/login">Login</Link>
         </li>
         <li>
-          <Link href="/channels/0000">Channel 0000</Link>
+          <Link href="/channels/me">Channel me</Link>
         </li>
       </ul>
     </main>
