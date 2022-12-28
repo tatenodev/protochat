@@ -4,7 +4,7 @@ import { css } from "@emotion/css";
 import { supabase } from "utils/supabaseClient";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { CreateChannelBlock } from "components/block/CreateChannelBlock";
-import { setChannelList } from "./slice";
+import { deleteChannelItem, setChannelList } from "./slice";
 import Link from "next/link";
 import TextLogBlock from "components/block/TextLogBlock";
 import MeBlock from "components/block/MeBlock";
@@ -36,11 +36,7 @@ export default function ChannelsTemplate() {
   const handleDeleteChannel = async (channelId: string) => {
     if (!user) return console.log("user does not exist.");
     const res = await supabase.from("channels").delete().eq("id", channelId);
-    const { data } = await supabase
-      .from("channels")
-      .select()
-      .eq("user", user.id);
-    if (data) dispatch(setChannelList(data));
+    dispatch(deleteChannelItem(channelId));
     console.log(res);
   };
 
