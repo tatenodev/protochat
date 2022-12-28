@@ -1,25 +1,20 @@
 import React, { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { css } from "@emotion/css";
 import { supabase } from "utils/supabaseClient";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectChannelById, setChannelList, setCurrentChannel } from "./slice";
 import { CreateChannelBlock } from "components/block/CreateChannelBlock";
-import {
-  deleteChannelItem,
-  selectChannelById,
-  setChannelList,
-  setCurrentChannel,
-} from "./slice";
-import Link from "next/link";
-import TextLogBlock from "components/block/TextLogBlock";
-import MeBlock from "components/block/MeBlock";
+import { TextLogBlock } from "components/block/TextLogBlock";
+import { MeBlock } from "components/block/MeBlock";
+import { ChannelListBlock } from "components/block/ChannelListBlock";
 
 export default function ChannelsTemplate() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const channelId = router.query.channelId as string | undefined;
   const { user } = useAppSelector((state) => state.userInfo);
-  const channelList = useAppSelector((state) => state.channel.list);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const currentChannel = useAppSelector(selectChannelById(channelId ?? ""));
 
@@ -39,13 +34,6 @@ export default function ChannelsTemplate() {
     if (data) dispatch(setChannelList(data));
   }, [user, dispatch]);
 
-  const handleDeleteChannel = async (_channelId: string) => {
-    if (!user) return console.log("user does not exist.");
-    const res = await supabase.from("channels").delete().eq("id", _channelId);
-    dispatch(deleteChannelItem(_channelId));
-    console.log(res);
-  };
-
   useEffect(() => {
     getChannels();
   }, [getChannels, user]);
@@ -62,19 +50,7 @@ export default function ChannelsTemplate() {
           <Link href="/channels/me">Home</Link>
         </div>
         <CreateChannelBlock />
-        <ul>
-          {channelList?.map((channel) => (
-            <li key={channel.id}>
-              <Link href={`/channels/${channel.id}`}>{channel.name}</Link>
-              <button
-                type="button"
-                onClick={() => handleDeleteChannel(channel.id)}
-              >
-                削除
-              </button>
-            </li>
-          ))}
-        </ul>
+        <ChannelListBlock />
         <div>
           {isLoadingLogout ? (
             <div>ログアウト中</div>

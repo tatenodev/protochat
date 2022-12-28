@@ -1,3 +1,3 @@
-export default function MeBlock() {
+export function MeBlock() {
   return <div>Default Page</div>;
 }
