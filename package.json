@@ -16,6 +16,7 @@
     "@radix-ui/react-portal": "^1.0.1",
     "@radix-ui/react-switch": "^1.0.1",
     "@reduxjs/toolkit": "^1.9.1",
+    "@stitches/react": "^1.2.8",
     "@supabase/supabase-js": "^2.2.2",
     "@types/node": "18.11.17",
     "@types/react": "18.0.26",
