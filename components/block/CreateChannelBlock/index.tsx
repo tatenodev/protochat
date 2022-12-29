@@ -25,6 +25,7 @@ export function CreateChannelBlock() {
     await supabase
       .from("channels")
       .insert({ user: user.id, name: channelName, is_public: isPublic });
+    // TODO: https://supabase.com/docs/reference/javascript/insert
     const { data } = await supabase
       .from("channels")
       .select()

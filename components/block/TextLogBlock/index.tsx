@@ -1,7 +1,36 @@
-import { useAppSelector } from "store/hooks";
+import { setChannelList } from "components/template/ChannelsTemplate/slice";
+import { KeyboardEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { supabase } from "utils/supabaseClient";
+
+// https://www.supabase.jp/docs/reference/javascript/select#querying-json-data
 
 export function TextLogBlock() {
-  const { currentChannel } = useAppSelector((state) => state.channel);
+  const dispatch = useAppDispatch();
+  const { currentChannel, list } = useAppSelector((state) => state.channel);
+  const [message, setMessage] = useState("");
+
+  const handleSubmitComment = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter" || !message) return;
+
+    const oldLogs = currentChannel?.logs;
+    const newLogs = oldLogs
+      ? [{ date: new Date(), message }, ...oldLogs]
+      : [{ date: new Date(), message }];
+    const { data } = await supabase
+      .from("channels")
+      .update({ logs: newLogs })
+      .eq("id", currentChannel?.id)
+      .select();
+
+    if (!data?.length) return console.log("no resposne.");
+    const newList = list.map((item) => {
+      if (item.id === data[0].id) return data[0];
+      return item;
+    });
+    dispatch(setChannelList(newList));
+    setMessage("");
+  };
 
   if (!currentChannel) return <div>Loading...</div>;
 
@@ -9,13 +38,18 @@ export function TextLogBlock() {
     <>
       <h1>#{currentChannel.name}</h1>
       <div>
-        <input type="text" />
+        <input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleSubmitComment}
+          type="text"
+        />
       </div>
-      <div>text log</div>
-      <div>text log</div>
-      <div>text log</div>
-      <div>text log</div>
-      <div>text log</div>
+      {currentChannel.logs?.map((log, i) => (
+        <div key={i}>
+          {log.date}: {log.message}
+        </div>
+      ))}
     </>
   );
 }

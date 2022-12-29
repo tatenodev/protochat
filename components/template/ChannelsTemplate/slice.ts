@@ -6,6 +6,12 @@ export type ChannelItem = {
   created_at: string;
   id: string;
   is_public: boolean;
+  logs:
+    | {
+        date: string;
+        message: string;
+      }[]
+    | null;
   name: string;
   user: string;
 };

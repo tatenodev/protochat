@@ -18,7 +18,6 @@ export default function ChannelsTemplate() {
   const channelList = useAppSelector((state) => state.channel.list);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const currentChannel = useAppSelector(selectChannelById(channelId ?? ""));
-  console.log("ChannelsTemplate");
 
   const handleLogout = async () => {
     setIsLoadingLogout(true);
