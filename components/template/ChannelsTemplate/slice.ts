@@ -19,11 +19,20 @@ export type ChannelItem = {
 type ChannelState = {
   channelList: ChannelItem[];
   currentChannel: ChannelItem | null;
+  profiles: {
+    avater_url: string;
+    full_name: string;
+    id: string;
+    update_at: string;
+    username: string;
+    website: string;
+  } | null;
 };
 
 const initialState: ChannelState = {
   channelList: [],
   currentChannel: null,
+  profiles: null,
 };
 
 export const userSlice = createSlice({
@@ -45,11 +54,18 @@ export const userSlice = createSlice({
     setCurrentChannel: (state, action: PayloadAction<ChannelItem>) => {
       state.currentChannel = action.payload;
     },
+    setProfiles: (state, action: PayloadAction<ChannelState["profiles"]>) => {
+      state.profiles = action.payload;
+    },
   },
 });
 
-export const { setChannelList, deleteChannelItem, setCurrentChannel } =
-  userSlice.actions;
+export const {
+  setChannelList,
+  deleteChannelItem,
+  setCurrentChannel,
+  setProfiles,
+} = userSlice.actions;
 
 export const selectChannelById = (_channelId: string) =>
   createSelector(
