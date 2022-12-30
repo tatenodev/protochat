@@ -38,7 +38,7 @@ export function CreateChannelBlock() {
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(isOpen) => setIsOpen(isOpen)}>
+    <Dialog.Root open={isOpen} onOpenChange={(_isOpen) => setIsOpen(_isOpen)}>
       <Dialog.Trigger>チャンネルを作成</Dialog.Trigger>
       <Dialog.Portal>
         <DialogOverlay />

@@ -11,6 +11,8 @@ export function useSession() {
     supabase.auth
       .getSession()
       .then((res) => {
+        console.log("user", res);
+
         if (res.data.session) {
           dispatch(setIsLoadingSession(false));
           dispatch(setUser(res.data.session.user));
