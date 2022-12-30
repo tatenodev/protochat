@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useAppSelector } from "store/hooks";
-import { ChannelEditBlock } from "../ChannelEditBlock";
-import { ChannelDeleteBlock } from "../ChannelDeleteBlock";
+import { EditChannelBlock } from "../EditChannelBlock";
+import { ChannelDeleteBlock } from "../DeleteChannelBlock";
 
 export function ChannelListBlock() {
   const { channelList } = useAppSelector((state) => state.channel);
@@ -11,7 +11,7 @@ export function ChannelListBlock() {
       {channelList?.map((channel) => (
         <li key={channel.id}>
           <Link href={`/channels/${channel.id}`}>{channel.name}</Link>
-          <ChannelEditBlock editChannel={channel} />
+          <EditChannelBlock editChannel={channel} />
           <ChannelDeleteBlock channel={channel} />
         </li>
       ))}

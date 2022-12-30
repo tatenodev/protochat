@@ -13,11 +13,11 @@ import {
   setChannelList,
 } from "components/template/ChannelsTemplate/slice";
 
-type ChannelEditBlockProps = {
+type EditChannelBlockProps = {
   editChannel: ChannelItem;
 };
 
-export function ChannelEditBlock({ editChannel }: ChannelEditBlockProps) {
+export function EditChannelBlock({ editChannel }: EditChannelBlockProps) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.session);
   const [isOpen, setIsOpen] = useState(false);

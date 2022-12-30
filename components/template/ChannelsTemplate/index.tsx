@@ -68,7 +68,10 @@ export default function ChannelsTemplate() {
   return (
     <div className={Container}>
       <nav className={Nav}>
-        <div>{profiles?.full_name ?? "no name"}</div>
+        <div>
+          {profiles?.full_name ?? "no name"}
+          <button>Profile編集</button>
+        </div>
         <div>
           <Link href="/channels/me">Home</Link>
         </div>
