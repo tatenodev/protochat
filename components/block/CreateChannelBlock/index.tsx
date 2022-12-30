@@ -50,9 +50,9 @@ export function CreateChannelBlock() {
             setIsCheckCallback={(isCheck) => setIsPublic(isCheck)}
           />
           <fieldset>
-            <label htmlFor="name">チャンネル名</label>
+            <label htmlFor="createChannelName">チャンネル名</label>
             <input
-              id="name"
+              id="createChannelName"
               placeholder="チャンネル名を入力"
               onChange={(e) => setChannelName(e.target.value)}
             />

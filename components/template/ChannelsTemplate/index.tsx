@@ -14,6 +14,7 @@ import { CreateChannelBlock } from "components/block/CreateChannelBlock";
 import { TextLogBlock } from "components/block/TextLogBlock";
 import { MeBlock } from "components/block/MeBlock";
 import { ChannelListBlock } from "components/block/ChannelListBlock";
+import { EditProfileBlock } from "components/block/EditProfileBlock";
 
 export default function ChannelsTemplate() {
   const dispatch = useAppDispatch();
@@ -69,8 +70,8 @@ export default function ChannelsTemplate() {
     <div className={Container}>
       <nav className={Nav}>
         <div>
-          {profiles?.full_name ?? "no name"}
-          <button>Profile編集</button>
+          {profiles?.username ?? "no name"}
+          <EditProfileBlock />
         </div>
         <div>
           <Link href="/channels/me">Home</Link>

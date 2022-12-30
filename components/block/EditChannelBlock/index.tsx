@@ -55,9 +55,9 @@ export function EditChannelBlock({ editChannel }: EditChannelBlockProps) {
             setIsCheckCallback={(isChecked) => setIsPublic(isChecked)}
           />
           <fieldset>
-            <label htmlFor="name">チャンネル名</label>
+            <label htmlFor="EditChannelName">チャンネル名</label>
             <input
-              id="name"
+              id="EditChannelName"
               placeholder="チャンネル名を入力"
               value={channelName}
               onChange={(e) => setChannelName(e.target.value)}
