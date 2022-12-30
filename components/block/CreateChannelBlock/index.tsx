@@ -12,7 +12,7 @@ import { supabase } from "utils/supabaseClient";
 
 export function CreateChannelBlock() {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.userInfo);
+  const { user } = useAppSelector((state) => state.session);
   const [isOpen, setIsOpen] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const [channelName, setChannelName] = useState("");

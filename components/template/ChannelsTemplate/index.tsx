@@ -14,8 +14,8 @@ export default function ChannelsTemplate() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const channelId = router.query.channelId as string | undefined;
-  const { user } = useAppSelector((state) => state.userInfo);
-  const channelList = useAppSelector((state) => state.channel.list);
+  const { user } = useAppSelector((state) => state.session);
+  const { channelList } = useAppSelector((state) => state.channel);
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const currentChannel = useAppSelector(selectChannelById(channelId ?? ""));
 

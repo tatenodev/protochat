@@ -17,7 +17,7 @@ type ChannelDeleteBlockProps = {
 
 export function ChannelDeleteBlock({ channel }: ChannelDeleteBlockProps) {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.userInfo);
+  const { user } = useAppSelector((state) => state.session);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDeleteChannel = async (_channelId: string) => {

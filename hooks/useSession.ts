@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "store/hooks";
-import { setIsLoadingSession, setUser } from "store/userSlice";
+import { setIsLoadingSession, setUser } from "store/sessionSlice";
 import { supabase } from "utils/supabaseClient";
 
 export function useSession() {
@@ -11,14 +11,9 @@ export function useSession() {
     supabase.auth
       .getSession()
       .then((res) => {
-        console.log("user", res);
-
-        if (res.data.session) {
-          dispatch(setIsLoadingSession(false));
-          dispatch(setUser(res.data.session.user));
-          return;
-        }
-        window.location.replace("/login");
+        if (!res.data.session) return window.location.replace("/login");
+        dispatch(setIsLoadingSession(false));
+        dispatch(setUser(res.data.session.user));
       })
       .catch((err) => {
         console.log(`err: ${err}`);

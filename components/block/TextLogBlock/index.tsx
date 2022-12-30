@@ -7,7 +7,9 @@ import { supabase } from "utils/supabaseClient";
 
 export function TextLogBlock() {
   const dispatch = useAppDispatch();
-  const { currentChannel, list } = useAppSelector((state) => state.channel);
+  const { currentChannel, channelList } = useAppSelector(
+    (state) => state.channel
+  );
   const [message, setMessage] = useState("");
 
   const handleSubmitComment = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -24,7 +26,7 @@ export function TextLogBlock() {
       .select();
 
     if (!data?.length) return console.log("no resposne.");
-    const newList = list.map((item) => {
+    const newList = channelList.map((item) => {
       if (item.id === data[0].id) return data[0];
       return item;
     });

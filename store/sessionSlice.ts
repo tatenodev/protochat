@@ -3,18 +3,18 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./index";
 import type { User } from "@supabase/supabase-js";
 
-interface userState {
+interface sessionState {
   isLoadingSession: boolean;
   user: User | null;
 }
 
-const initialState: userState = {
+const initialState: sessionState = {
   isLoadingSession: false,
   user: null,
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: "session",
   initialState,
   reducers: {
     setIsLoadingSession: (state, action: PayloadAction<boolean>) => {
@@ -27,5 +27,5 @@ export const userSlice = createSlice({
 });
 
 export const { setIsLoadingSession, setUser } = userSlice.actions;
-export const selectIsLoadingSession = (state: RootState) => state.userInfo;
+export const selectIsLoadingSession = (state: RootState) => state.session;
 export default userSlice.reducer;

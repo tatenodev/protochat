@@ -19,7 +19,7 @@ type ChannelEditBlockProps = {
 
 export function ChannelEditBlock({ editChannel }: ChannelEditBlockProps) {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.userInfo);
+  const { user } = useAppSelector((state) => state.session);
   const [isOpen, setIsOpen] = useState(false);
   const [isPublic, setIsPublic] = useState(editChannel.is_public);
   const [channelName, setChannelName] = useState(editChannel.name);
